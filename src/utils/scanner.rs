@@ -14,7 +14,10 @@ impl Scanner {
     }
 
     pub fn new() -> Self {
-        Scanner { tokens: Vec::new(), pos: 0 }
+        Scanner {
+            tokens: Vec::new(),
+            pos: 0,
+        }
     }
 
     fn fill(&mut self) -> bool {
