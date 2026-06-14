@@ -8,6 +8,11 @@ pub struct Scanner {
 
 #[allow(unused)]
 impl Scanner {
+    pub fn from_string(input: &str) -> Self {
+        let tokens = input.split_whitespace().map(String::from).collect();
+        Scanner { tokens, pos: 0 }
+    }
+
     pub fn new() -> Self {
         let mut s = String::new();
         io::stdin().read_to_string(&mut s).expect("read stdin");

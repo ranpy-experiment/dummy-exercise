@@ -2,7 +2,6 @@ use crate::solution::Solution;
 use crate::types::ListNode;
 use crate::utils::Scanner;
 use std::any::Any;
-use std::io;
 use std::io::Write;
 
 /*
@@ -35,10 +34,11 @@ impl Solution for MaximumTwinSum {
     }
 
     fn solve(&self) -> Option<Box<dyn Any>> {
-        let mut sc: Scanner = Scanner::new();
+        let input = crate::STDIN_INPUT.get().expect("stdin not initialized");
+        let mut sc: Scanner = Scanner::from_string(input);
 
         print!("Enter the size of the linked list: ");
-        io::stdout().flush().unwrap(); // show message before taking input
+        std::io::stdout().flush().unwrap(); // show message before taking input
         let n: i32 = sc.next();
 
         print!("Enter the elements of the list in order: ");
