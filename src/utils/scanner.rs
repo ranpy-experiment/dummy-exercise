@@ -1,4 +1,4 @@
-use std::io::{self, Read};
+use std::io;
 use std::str::FromStr;
 
 pub struct Scanner {
@@ -14,33 +14,51 @@ impl Scanner {
     }
 
     pub fn new() -> Self {
-        let mut s = String::new();
-        io::stdin().read_to_string(&mut s).expect("read stdin");
-        let tokens = s.split_whitespace().map(String::from).collect();
-        Scanner { tokens, pos: 0 }
+        Scanner { tokens: Vec::new(), pos: 0 }
     }
 
-    // panicking version: returns T or panic on parse/error
+    fn fill(&mut self) -> bool {
+        loop {
+            let mut line = String::new();
+            match io::stdin().read_line(&mut line) {
+                Ok(0) => return false,
+                Ok(_) => {
+                    self.tokens = line.split_whitespace().map(String::from).collect();
+                    self.pos = 0;
+                    if !self.tokens.is_empty() {
+                        return true;
+                    }
+                }
+                Err(e) => panic!("read error: {}", e),
+            }
+        }
+    }
+
     pub fn next<T: FromStr>(&mut self) -> T
     where
         T::Err: std::fmt::Debug,
     {
+        if self.pos >= self.tokens.len() {
+            if !self.fill() {
+                panic!("unexpected EOF");
+            }
+        }
         let tok = &self.tokens[self.pos];
         self.pos += 1;
         tok.parse::<T>().expect("parse token")
     }
 
-    // fallible version: returns Option<T>
     pub fn next_opt<T: FromStr>(&mut self) -> Option<T> {
         if self.pos >= self.tokens.len() {
-            return None;
+            if !self.fill() {
+                return None;
+            }
         }
         let tok = &self.tokens[self.pos];
         self.pos += 1;
         tok.parse::<T>().ok()
     }
 
-    // convenience for reading Vec<T> of known length
     pub fn read_vec<T: FromStr>(&mut self, n: usize) -> Vec<T>
     where
         T::Err: std::fmt::Debug,

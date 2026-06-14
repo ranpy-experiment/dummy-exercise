@@ -1,7 +1,6 @@
-use std::io::Write;
+use std::io::{self, Write};
 
 use crate::solution::Solution;
-use crate::utils::Scanner;
 
 pub struct CollatzSequence {}
 
@@ -41,12 +40,14 @@ impl Solution for CollatzSequence {
     }
 
     fn solve(&self) -> Option<Box<dyn std::any::Any>> {
-        let input = crate::STDIN_INPUT.get().expect("stdin not initialized");
-        let mut sc = Scanner::from_string(input);
+        let mut s: String = String::new();
 
         print!("Enter the number: ");
-        std::io::stdout().flush().unwrap(); // show message before taking input
-        let num: i32 = sc.next();
+        io::stdout().flush().unwrap(); // show message before taking input
+        io::stdin()
+            .read_line(&mut s)
+            .expect("Failed to read input!!");
+        let num: i32 = s.trim().parse().expect("Invalid number!!");
 
         let res: i32 = self.collatz_sequence(num);
 
