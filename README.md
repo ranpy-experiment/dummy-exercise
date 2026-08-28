@@ -10,8 +10,8 @@ solution lives in its own module under `src/solutions/` and implements the
 
 Run a solution by passing its index as a command-line argument:
 
-```
-cargo run         # runs solution 0 (default)
+```sh
+cargo run         # runs last solution (default)
 cargo run -- 0    # runs solution 0
 cargo run -- 1    # runs solution 1
 ```
@@ -19,7 +19,7 @@ cargo run -- 1    # runs solution 1
 The program will prompt you for the required input. You can also pipe input
 directly:
 
-```
+```sh
 echo "3 1 2 3 4" | cargo run -- 0
 echo "3" | cargo run -- 1
 ```
