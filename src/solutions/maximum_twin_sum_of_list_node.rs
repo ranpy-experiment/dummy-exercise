@@ -2,6 +2,7 @@ use crate::solution::Solution;
 use crate::types::ListNode;
 use crate::utils::Scanner;
 use std::any::Any;
+use std::cmp::max;
 use std::io;
 use std::io::Write;
 
@@ -25,7 +26,25 @@ pub struct MaximumTwinSum {}
 
 impl MaximumTwinSum {
     fn pair_sum(&self, head: Option<Box<ListNode>>) -> i32 {
-        return head.unwrap().val;
+        let mut vec: Vec<i32> = vec![];
+
+        let mut temp: Option<&Box<ListNode>> = head.as_ref();
+        while let Some(node) = temp {
+            vec.push(node.val);
+            temp = node.next.as_ref();
+        }
+
+        let n: usize = vec.len();
+        let l: usize = n / 2;
+        let mut max_sum: i32 = i32::MIN;
+        for i in 0..l {
+            let cur_sum: i32 = vec[i] + vec[n - i - 1];
+            // if cur_sum > max_sum {
+            //     max_sum = cur_sum;
+            // }
+            max_sum = max(max_sum, cur_sum);
+        }
+        max_sum
     }
 }
 
