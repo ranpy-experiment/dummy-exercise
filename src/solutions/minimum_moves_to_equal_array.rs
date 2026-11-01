@@ -10,6 +10,11 @@ impl MinMovesEqualArray {
         let min_val: i32 = nums.iter().min().copied().unwrap_or(0);
         let total_val: i32 = nums.iter().sum();
 
+        /*
+         * because all that you can do is increment
+         * therefore, the min value needs to catch up
+         * to the max, and then adjust for the collateral
+         */
         total_val - (n as i32 * min_val)
     }
 }
